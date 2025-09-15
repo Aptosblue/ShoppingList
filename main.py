@@ -8,39 +8,44 @@ def add_item():
         shopping_list.append(user_prompt)
         print(f'You have added {user_prompt} to your shopping list')
         print(f'Your list now contains: ')
-        for item in shopping_list:
-            print(f'-{item.capitalize()}')
+        for i in shopping_list:
+            print(f'-{i.capitalize()}')
         user_prompt = str(input('Type an item to add or type "Done" to return to main menu: ')).lower()
 
 
 def remove_item():
     print(shopping_list)
     item_choice = str(input('Which item would you like to remove?')).lower()
-    for item in shopping_list:
-        if item == item_choice.lower():
-            shopping_list.remove(item)
-            print(f'{item.capitalize()} has been removed from the shopping list')
+    for i in shopping_list:
+        if i == item_choice.lower():
+            shopping_list.remove(i)
+            print(f'{i.capitalize()} has been removed from the shopping list')
         else:
             break
 
-print("1. Add Item\n2. Remove Item\n3. View Shopping List.")
-user_selection = int(input('Please select an option: '))
+print("1. Add Item\n2. Remove Item\n3. View Shopping List\n4. Exit and write list to file")
 
+user_selection = 0
 while user_selection != 4:
-    if user_selection == 1:
-        add_item()
-    if user_selection == 2:
-        remove_item()
-    if user_selection == 3:
-        for item in shopping_list:
-            print(f'-{item}')
-    print("1. Add Item\n2. Remove Item\n3. View Shopping List.")
-    user_selection = int(input('Please select an option: '))
+    try:
+        user_selection = int(input('Please select an option: '))
+        if user_selection == 1:
+            add_item()
+        if user_selection == 2:
+            remove_item()
+        if user_selection == 3:
+            for item in shopping_list:
+                print(f'-{item}')
+        if user_selection > 4:
+            print('The option you selected simply does not exist')
+        print("1. Add Item\n2. Remove Item\n3. View Shopping List\n4. Exit and write list to file")
+    except ValueError:
+        print('The selection you made was not a valid choice.')
 
 try:
-    with open('shoppinglist.text', 'w') as s:
+    with open('shoppinglist.text', 'w') as file:
         for item in shopping_list:
-            s.write(item + '\n')
+            file.write(item + '\n')
 
 finally:
-    s.close()
+    file.close()
